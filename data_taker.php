@@ -11,8 +11,9 @@ function data_requester($link, $client) {
     ]);
     $data = json_decode($data->getBody());
     $data = $data->results;
+    return $data;
 }
-$action = $_GET["action"] ?? 0;
+$action = (int) $_GET["action"] ?? 0;
 $require_awnser = [];
 $link;
 switch ($action) {
@@ -55,4 +56,4 @@ switch ($action) {
         }
         break;
 }
-print_r($require_awnser);
+print_r(json_encode($require_awnser));
