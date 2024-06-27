@@ -4,7 +4,7 @@ guzzlehttp/guzzle
 
 exemplo de objeto filmes:
 
-adult: false
+{adult: false
 
 backdrop_path: "/xg27NrXi7VXCGUr7MG75UqLl6Vg.jpg"
 
@@ -32,4 +32,4 @@ video: false
 
 vote_average: 7.756
 
-vote_count: 884
+vote_count: 884}
