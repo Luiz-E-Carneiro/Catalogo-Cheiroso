@@ -14,6 +14,13 @@ function data_requester($link, $client) {
     return $data;
 }
 $action = (int) $_GET["action"] ?? 0;
+$item;
+if (isset($_GET["item"])) {
+    $item = $_GET["item"];
+    $item = urldecode($item);
+    $item = json_decode($item);
+}
+$type = (int) isset($_GET["type"]) ? $_GET["type"] : 0;
 $require_awnser = [];
 $link;
 switch ($action) {
@@ -36,8 +43,8 @@ switch ($action) {
         $require_awnser = data_requester("tv/top_rated?language=en-US&page=1", $client);
         break;
     case 5:
-        if (isset($_SESSION["data"]["fav"])) {
-            $require_awnser = json_decode($_SESSION["data"]["fav"]);
+        if (isset($_SESSION["data"]["fav"][$type])) {
+            $require_awnser = json_decode($_SESSION["data"]["fav"][$type]);
         } else {
             $require_awnser = [
                 "err" => "Empty State",
@@ -46,8 +53,8 @@ switch ($action) {
         }
         break;
     case 6:
-        if (isset($_SESSION["data"]["watch_list"])) {
-            $require_awnser = json_decode($_SESSION["data"]["watch_list"]);
+        if (isset($_SESSION["data"]["watch_list"][$type])) {
+            $require_awnser = json_decode($_SESSION["data"]["watch_list"][$type]);
         } else {
             $require_awnser = [
                 "err" => "Empty State",
@@ -55,5 +62,15 @@ switch ($action) {
             ];
         }
         break;
+    case 7:
+        $_SESSION["data"]["fav"][$type] = [json_encode($item), $item->id];
+        break;
+    case 8:
+        $_SESSION["data"]["watch_list"][$type] = [json_encode($item), $item->id];
+        break;
+    case 9:
+        foreach ($_SESSION["data"]["fav"][$type] as $data) {
+            $data = json_decode($data);
+        }
 }
 print_r(json_encode($require_awnser));
