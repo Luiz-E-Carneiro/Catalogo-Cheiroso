@@ -1,6 +1,6 @@
 guzzlehttp/guzzle
 
-
+paleta_de_cores: [#2C74BB, #3D5E8F, #2988E6, #3B5666, #20243D, #32323D]
 
 exemplo de objeto filmes:
 
