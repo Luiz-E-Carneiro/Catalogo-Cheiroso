@@ -1,25 +1,34 @@
-:root{
-    
+:root {
+    --light_grey: #CCD0D8;
+    --light_blue: #84A4FC;
+    --blue: #1463F3;
+    --dark_blue: #1052ce;
+    --black2: #1D2023;
+    --black1: #191919;
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Prompt", sans-serif;
+    font-weight: 400;
 }
 
-/*Apagar dps*/
-span, p, h2, h3 {
-    color: white
+span,
+p,
+h2,
+h3 {
+    color: var(--light_grey)
 }
 
-body{
+body {
     position: relative;
-    
+
     width: 100%;
     min-height: 100vh;
     height: 100%;
-    background-color: #191919;
+    background-color: var(--black2);
     display: flex;
     gap: 1em;
 }
@@ -30,42 +39,66 @@ header {
     width: 100%;
     height: 7vh;
     display: flex;
-    background-color: #191919;
-    box-shadow: 0 0 7px white; /* Cor do header */
+    align-items: center;
+    background-color: var(--black1);
+    box-shadow: 0 0 7px var(--black1);
+    padding: 0 calc(1em + 10px);
 }
 
-.side-bar{
-    margin-top: 7.6vh;
-
-    max-width: 12em;    
-    max-height: 60vh;
+.side-bar {
+    margin-top: 7.9vh;
+    max-width: 12em;
     height: fit-content;
     flex-grow: 1;
-    background-color: rgb(89, 89, 89);
+    background-color: var(--black1);
     border-radius: 10px;
     margin-left: 1em;
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 1em;
     padding: 10px;
+    transition: max-width 0.3s ease-in-out;
 }
 
-.side-bar > button {
+.side-bar>button {
+    font-size: 1rem;
     padding: 20px;
     border-radius: 6px;
     border: none;
-}
-.closer-side-bar{
-    max-width: 4em;
-    max-height: 4em;
+    background-color: var(--blue);
+    color: white;
+    transition: background-color 0.1s ease-in-out;
 }
 
-main{
-    margin-top: 7.6vh;
-    
-    background-color: rgb(89, 89, 89);
+.side-bar>button:hover {
+    background-color: var(--dark_blue);
+}
+
+.closer-side-bar {
+    max-width: 4em;
+    max-height: 4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.side-bar.collapsed {
+    max-width: 4em;
+}
+
+.side-bar.collapsed .side {
+    display: none;
+}
+
+.side-bar.collapsed .closer-side-bar::after {
+    font-size: 1.5em;
+}
+
+main {
+    margin-top: 7.9vh;
+
+    background-color: var(--black1);
     flex-grow: 1;
     position: relative;
     display: flex;
@@ -73,32 +106,57 @@ main{
     margin-right: 1em;
 }
 
-/* <div class="select">
-            <h3>Selecione tipo</h3>
-            <div>
-                <button class="btn-filme">Filme</button>
-                <button class="btn-serie">Série</button>
-            </div>
-        </div> */
-
-.select-type{
+.select-type {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: .5em;
+    padding: .5em;
+    background: rgb(29, 32, 35);
+    background: linear-gradient(0deg, rgba(25, 25, 25, 1) 0%, rgba(29, 32, 35, 1) 100%);
 }
 
-.btns-select{
+.select-type > h3{
+    font-size: 1.7rem;
+}
+
+.btns-select {
     display: flex;
     width: fit-content;
 }
 
-.btn-filme, .btn-serie{
-    padding: 7px
+.btns-select>button {
+    background-color: var(--light_grey);
+    transition: .2s ease-in-out;
+    font-weight: bold;
 }
 
-.show-back{
+.btns-select>button:hover {
+    background-color: var(--blue);
+    color: white;
+}
+
+.btn-filme,
+.btn-serie {
+    padding: 7px 18px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    border: none;
+}
+
+.btn-filme {
+    border-radius: 7px 0 0 7px;
+    border-right: 1px solid black;
+}
+
+.btn-serie {
+    border-left: 1px solid black;
+    border-radius: 0 7px 7px 0;
+}
+
+.cards-area {
     flex-grow: 1;
-    background-color: rgb(0, 0, 73);
+    background-color: var(--blue1);
 }
