@@ -1,8 +1,8 @@
 guzzlehttp/guzzle
 
-paleta_de_cores: [#2C74BB, #3D5E8F, #2988E6, #3B5666, #20243D, #32323D]
+Paleta de Cores: [#CCD0D8, #84A4FC, #1463F3, #1052ce, #1D2023, #191919]
 
-exemplo de objeto filmes:
+Exemplo de objeto filmes:
 
 {adult: false
 
