@@ -4,21 +4,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
     <title>Catálogo Cheiroso</title>
 </head>
 <body>
-    <header> 
+    <header>
         <h2>Catálogo Cheiroso</h2>
     </header>
-    
+
     <div class="side-bar">
-        <button class="closer-side-bar">X</button>
-        <button>Home</button>
-        <button>Movie</button>
-        <button>Série</button>
-        <button>Favoritos</button>
-        <button>Assistir Depois</button>
+        <button class="closer-side-bar" id="toggle-btn">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+        <button class="side">Home</button>
+        <button class="side">Movie</button>
+        <button class="side">Série</button>
+        <button class="side">Favoritos</button>
+        <button class="side">Assistir Depois</button>
     </div>
 
     <main id="main">
@@ -29,11 +38,12 @@
                 <button class="btn-serie">Série</button>
             </div>
         </div>
-        <div class="show-back">
-            <p>Infos aq</p>
+        <div class="cards-area" id="cards-area">
+            Conteúdo Aq
         </div>
     </main>
 
     <script src="data_requester.js"></script>
+    <script src="interactions.js"></script>
 </body>
 </html>
