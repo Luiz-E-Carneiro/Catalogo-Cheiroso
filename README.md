@@ -25,7 +25,6 @@ popularity: 6047.321
 poster_path: "/gMB8vgHu2lcyzv1fyptD6drHmJd.jpg"
 
 release_date: "2024-06-11"
-(first_air_date)
 
 title: "Inside Out 2"
 

@@ -40,7 +40,7 @@ function content_require(element) {
     element.parentNode.children[element.classList[0] == "btn-filme" ? 1 : 0].classList.remove("clicked")
     action_num = Number(element.dataset.action_num)
     var action_item
-    var action_type
+    var action_type = Number(element.dataset.type)
     if (action_num >= 5) {
     }
     data_requester(action_num, action_item, action_type)
@@ -60,7 +60,7 @@ function content_creater() {
     data.forEach(function (element, i) {
         var unity = document.createElement("div")
         unity.addEventListener("click", function () {
-            show_modal(unity.dataset.data_num)
+            show_modal(this)
         })
         unity.addEventListener("mouseenter", function () {
             show_desc(this)
@@ -114,6 +114,7 @@ function unshow_desc(element) {
 }
 content_require(document.getElementsByClassName("btn-filme")[0])
 
+
 const show_modal = (i) => {
     var infos = data[i];
 
@@ -134,7 +135,7 @@ const show_modal = (i) => {
 
     //NÃO SEI SE ESTÁ FUNCIONANDO...
     let img = document.createElement("img");
-    img.src = `url("http://image.tmdb.org/t/p/w500${infos.poster_path}")`; 
+    img.src = `url("http://image.tmdb.org/t/p/w500${infos.backdrop_path}")`;
 
     let span_date = document.createElement("span");
     span_date.innerText = "Lançamento: ";

@@ -30,16 +30,16 @@ switch ($action) {
         ];
         break;
     case 1:
-        $require_awnser = data_requester("movie/popular?language=en-US&page=1", $client);
+        $require_awnser = data_requester("movie/popular?language=pt-BR&page=1", $client);
         break;
     case 2:
-        $require_awnser = data_requester("movie/top_rated?language=en-US&page=1", $client);
+        $require_awnser = data_requester("movie/top_rated?language=pt-BR&page=1", $client);
         break;
     case 3:
-        $require_awnser = data_requester("tv/popular?language=en-US&page=1", $client);
+        $require_awnser = data_requester("tv/popular?language=pt-BR&page=1", $client);
         break;
     case 4:
-        $require_awnser = data_requester("tv/top_rated?language=en-US&page=1", $client);
+        $require_awnser = data_requester("tv/top_rated?language=pt-BR&page=1", $client);
         break;
     case 5:
         if (isset($_SESSION["data"]["fav"][$type])) {
