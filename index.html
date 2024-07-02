@@ -12,6 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Catálogo Cheiroso</title>
 </head>
 <body>
@@ -23,23 +24,43 @@
         <button class="closer-side-bar" id="toggle-btn">
             <span class="material-symbols-outlined">menu</span>
         </button>
-        <button class="side">Home</button>
-        <button class="side">Movie</button>
-        <button class="side">Série</button>
-        <button class="side">Favoritos</button>
-        <button class="side">Assistir Depois</button>
+        <a class="side" href="home.html">Home</a>
+        <a class="side" href="movie.html">Movie</a>
+        <a class="side" href="serie.html">Série</a>
+        <a class="side" href="fav.html">Favoritos</a>
+        <a class="side" href="watch_list.html">Assistir Depois</a>
     </div>
 
     <main id="main">
         <div class="select-type">
-            <h3>Selecione tipo</h3>
+            <h3>Selecione o tipo</h3>
             <div class="btns-select">
-                <button class="btn-filme">Filme</button>
-                <button class="btn-serie">Série</button>
+                <button class="btn-filme clicked" onclick="content_require(this)" data-action_num="1">Filme</button>
+                <button class="btn-serie" onclick="content_require(this)" data-action_num="3">Série</button>
             </div>
         </div>
         <div class="cards-area" id="cards-area">
-            Conteúdo Aq
+            <!--
+            <div class="unity">
+                <div class="unity_desc">
+                    <p>Unity_name</p>
+                    <div>
+                        <p>2024</p>
+                        <p>00</p>
+                    </div>
+                </div>
+            </div>-->
+            <div class="temp_screen" id="load_screen">
+                <div id="load_icon">
+                    <p>Loading ...</p>
+                </div>
+            </div>
+            <div class="temp_screen" id="empty_screen">
+                <div id="empty_icon">
+                    <i class="fa-solid fa-box-open"></i>
+                </div>
+                <p>Parece que não há conteúdo aqui</p>
+            </div>
         </div>
     </main>
 
