@@ -1,9 +1,9 @@
-document.getElementById('toggle-btn').addEventListener('click', function() {
+document.getElementById('toggle-btn').addEventListener('click', function () {
     var sideBar = document.querySelector('.side-bar');
     sideBar.classList.toggle('collapsed');
     this.innerHTML = sideBar.classList.contains('collapsed') ?
-    '<span class="material-symbols-outlined">drag_indicator</span>' :
-    '<span class="material-symbols-outlined">menu</span>';
+        '<span class="material-symbols-outlined">drag_indicator</span>' :
+        '<span class="material-symbols-outlined">menu</span>';
 });
 var cards_area = document.getElementById("cards-area")
 var load_screen = document.getElementById("load_screen")
@@ -13,7 +13,7 @@ var action_num
 async function data_requester(action, item = null, type = null) {
     var counter
     counter = Number(cards_area.children.length)
-    document.querySelectorAll('.unity').forEach(function(element) {
+    document.querySelectorAll('.unity').forEach(function (element) {
         element.remove();
     });
     /*if (counter >= 3) {
@@ -57,15 +57,15 @@ function content_require(element) {
 </div>
 */
 function content_creater() {
-    data.forEach(function(element, i) {
+    data.forEach(function (element, i) {
         var unity = document.createElement("div")
-        unity.addEventListener("click", function() {
-            show_modal(this)
+        unity.addEventListener("click", function () {
+            show_modal(unity.dataset.data_num)
         })
-        unity.addEventListener("mouseenter", function() {
+        unity.addEventListener("mouseenter", function () {
             show_desc(this)
         })
-        unity.addEventListener("mouseleave", function() {
+        unity.addEventListener("mouseleave", function () {
             unshow_desc(this)
         })
         unity.classList.add("unity")
@@ -113,3 +113,115 @@ function unshow_desc(element) {
     }, 250);
 }
 content_require(document.getElementsByClassName("btn-filme")[0])
+
+const show_modal = (i) => {
+    var infos = data[i];
+
+    let back_modal = document.createElement("div");
+    back_modal.classList.add("back_modal");
+
+    document.body.appendChild(back_modal);
+
+    let div_modal = document.createElement("div");
+    div_modal.classList.add("modal");
+
+    back_modal.appendChild(div_modal);
+
+    let div_img = document.createElement("div");
+    div_img.classList.add("div_img");
+
+    div_modal.appendChild(div_img);
+
+    //NÃO SEI SE ESTÁ FUNCIONANDO...
+    let img = document.createElement("img");
+    img.src = `url("http://image.tmdb.org/t/p/w500${infos.poster_path}")`; 
+
+    let span_date = document.createElement("span");
+    span_date.innerText = "Lançamento: ";
+
+    let p_release_date = document.createElement("p");
+    if (infos.release_date) {
+        p_release_date.innerText = infos.release_date;
+    } else {
+        p_release_date.innerText = infos.first_air_date;
+    }
+
+    let div_foot_img = document.createElement("div");
+    div_foot_img.appendChild(span_date);
+    div_foot_img.appendChild(p_release_date);
+
+    div_img.appendChild(img);
+    div_img.appendChild(div_foot_img);
+
+
+    let div_desc = document.createElement("div");
+    div_desc.classList.add("div_desc")
+
+    let span_title = document.createElement("span");
+    span_title.innerText = "Título: ";
+
+    let p_title = document.createElement("p");
+    if (infos.title) {
+        p_title.innerText = infos.title;
+    } else {
+        p_title.innerText = infos.name;
+    }
+
+    let div1 = document.createElement("div");
+    div1.appendChild(span_title);
+    div1.appendChild(p_title);
+
+    let span_overview = document.createElement("span");
+    span_overview.innerText = "Descrição: ";
+
+    let p_overview = document.createElement("p");
+    p_overview.innerText = infos.overview;
+
+    let div2 = document.createElement("div");
+    div2.appendChild(span_overview);
+    div2.appendChild(p_overview);
+
+    let span_adult = document.createElement("span");
+    span_adult.innerText = "Adulto: ";
+    let p_adult = document.createElement("p");
+
+    if (infos.adult) {
+        p_adult.innerText = "Sim";
+    } else {
+        p_adult.innerText = "Não";
+    }
+    let div3 = document.createElement("div");
+    div3.appendChild(span_adult);
+    div3.appendChild(p_adult);
+
+    let div_numbers = document.createElement("div");
+    div_numbers.classList.add("div_numbers");
+
+    let span_vote = document.createElement("span");
+    span_vote.innerText = "Média de Votos: ";
+
+    let div4 = document.createElement("div");
+    div4.appendChild(span_vote);
+    div4.appendChild(p_vote_average);
+
+    let p_vote_average = document.createElement("p");
+    p_vote_average.innerText = infos.vote_average;
+
+    let span_pop = document.createElement("span");
+    span_pop.innerText = "Populariedade: ";
+
+    let p_popularity = document.createElement("p");
+    p_popularity.innerText = infos.popularity;
+
+    let div5 = document.createElement("div");
+    div5.appendChild(span_pop);
+    div5.appendChild(p_popularity);
+
+    div_numbers.appendChild(div4);
+    div_numbers.appendChild(div5);
+
+    div_desc.appendChild(div1);
+    div_desc.appendChild(div2);
+    div_desc.appendChild(div3);
+    div_desc.appendChild(div_numbers);
+}
