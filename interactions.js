@@ -60,7 +60,7 @@ function content_creater() {
     data.forEach(function (element, i) {
         var unity = document.createElement("div")
         unity.addEventListener("click", function () {
-            show_modal(this)
+            show_modal(unity.dataset.data_num)
         })
         unity.addEventListener("mouseenter", function () {
             show_desc(this)
@@ -114,9 +114,9 @@ function unshow_desc(element) {
 }
 content_require(document.getElementsByClassName("btn-filme")[0])
 
-
 const show_modal = (i) => {
     var infos = data[i];
+    console.log(infos);
 
     let back_modal = document.createElement("div");
     back_modal.classList.add("back_modal");
@@ -133,9 +133,8 @@ const show_modal = (i) => {
 
     div_modal.appendChild(div_img);
 
-    //NÃO SEI SE ESTÁ FUNCIONANDO...
     let img = document.createElement("img");
-    img.src = `url("http://image.tmdb.org/t/p/w500${infos.backdrop_path}")`;
+    img.src = `http://image.tmdb.org/t/p/w500${infos.backdrop_path}`;
 
     let span_date = document.createElement("span");
     span_date.innerText = "Lançamento: ";
@@ -154,9 +153,8 @@ const show_modal = (i) => {
     div_img.appendChild(img);
     div_img.appendChild(div_foot_img);
 
-
     let div_desc = document.createElement("div");
-    div_desc.classList.add("div_desc")
+    div_desc.classList.add("div_desc");
 
     let span_title = document.createElement("span");
     span_title.innerText = "Título: ";
@@ -201,12 +199,12 @@ const show_modal = (i) => {
     let span_vote = document.createElement("span");
     span_vote.innerText = "Média de Votos: ";
 
+    let p_vote_average = document.createElement("p");
+    p_vote_average.innerText = `${Number(infos.vote_average).toFixed(1)}/10`;
+
     let div4 = document.createElement("div");
     div4.appendChild(span_vote);
     div4.appendChild(p_vote_average);
-
-    let p_vote_average = document.createElement("p");
-    p_vote_average.innerText = infos.vote_average;
 
     let span_pop = document.createElement("span");
     span_pop.innerText = "Populariedade: ";
@@ -218,6 +216,16 @@ const show_modal = (i) => {
     div5.appendChild(span_pop);
     div5.appendChild(p_popularity);
 
+    let btn_close = document.createElement("button");
+    btn_close.innerHTML = `<span class="material-symbols-outlined">close</span>`;
+    btn_close.classList.add('btn_close_modal');
+
+    btn_close.addEventListener("click", function () {
+        back_modal.style.display = "none"
+    })
+
+    div_numbers.appendChild(btn_close);
+
     div_numbers.appendChild(div4);
     div_numbers.appendChild(div5);
 
@@ -225,4 +233,51 @@ const show_modal = (i) => {
     div_desc.appendChild(div2);
     div_desc.appendChild(div3);
     div_desc.appendChild(div_numbers);
+
+    let div_actions = document.createElement("div");
+    div_actions.classList.add("div_actions");
+
+    let div_favorite = document.createElement("div");
+    div_favorite.classList.add("div_favorite");
+    let span_favorite = document.createElement("span");
+    span_favorite.innerText = "Favoritar";
+    let button_favorite = document.createElement("button");
+    button_favorite.innerHTML = `<span class="material-symbols-outlined">star</span>`;
+    div_favorite.appendChild(span_favorite);
+    div_favorite.appendChild(button_favorite);
+    
+    let div_watch_later = document.createElement("div");
+    div_watch_later.classList.add("div_watch_later");
+    let span_watch_later = document.createElement("span");
+    span_watch_later.innerText = "Assistir Depois ";
+    let button_watch_later = document.createElement("button");
+    button_watch_later.innerHTML = `<span class="material-symbols-outlined">visibility_off</span>`;
+    div_watch_later.appendChild(span_watch_later);
+    div_watch_later.appendChild(button_watch_later);
+
+    div_actions.appendChild(div_favorite);
+    div_actions.appendChild(div_watch_later);
+
+    div_desc.appendChild(div_actions);
+
+    div_modal.appendChild(div_desc);
+
+    button_watch_later.addEventListener("click", ()=> watch_later(infos, button_watch_later));
+    button_favorite.addEventListener("click", ()=> favorite_it(infos, button_favorite));
+}
+
+const watch_later = (infos, btn) => {
+    if(btn.innerHTML === `<span class="material-symbols-outlined">visibility_off</span>`)
+    btn.innerHTML = `<span class="material-symbols-outlined">visibility</span>`
+    else btn.innerHTML = `<span class="material-symbols-outlined">visibility_off</span>`;
+}
+
+const favorite_it = (infos, btn) => {
+    if(btn.innerHTML === `<span class="material-symbols-outlined">star</span>`){
+        btn.innerHTML = `<span class="material-symbols-outlined">hotel_class</span>`
+    }else {
+        btn.innerHTML = `<span class="material-symbols-outlined">star</span>`;
+    }
+    console.log(btn.children);
+    
 }
