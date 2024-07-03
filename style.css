@@ -282,100 +282,172 @@ main {
     color: white;
 }
 
-
-.back_modal {
-    width: 100%;
-    min-height: 100vh;
-    height: 100%;
-    background-color: rgba(0, 0, 0, .8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/*
+<div class="back_modal">
+    <div id="modal_top">
+        <div id="modal_img">
+            <div></div>
+        </div>
+        <div id="modal_desc">
+            <div>
+                <div>
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+            </div>
+            <div>
+                <p>Bad Boys: Até o Fim</p>
+                <p>2024-06-05</p>
+                <p>Língua: en</p>
+                <p>Adulto: sim</p>
+                <div>
+                    Avaliação geral:
+                    <div id="vote_counter">
+                        <div></div>
+                    </div>
+                </div>
+                <p>Depois que seu falecido ex-capitão é incriminado, Lowrey e Burnett tentam limpar seu nome, apenas para acabarem se tornando os mais procurados de Miami.</p>
+            </div>
+        </div>
+    </div>
+    <div id="modal_bottom">
+        <div id="fav_button">
+            <i class="fa-regular fa-star"></i>
+            <!--<i class="fa-solid fa-star"></i>-->
+        </div>
+        <div id="watch_button">
+            <i class="fa-solid fa-list"></i>
+        </div>
+    </div>
+</div>
+*/
+#back_modal {
     position: absolute;
-}
-
-.modal {
-    max-width: 80%;
-    height: fit-content;
-    display: flex;
-    border-radius: 7px;
-    align-items: center;
-    justify-content: center;
-    gap: 2em;
-}
-
-.modal *{
-    color: black;
-}
-
-.modal>div {
-    padding: 20px;
-    background-color: var(--light_grey);
-    flex: 1;
-    box-shadow: 0 0 7px rgba(0, 0, 0, .9);
-    border-radius: 7px;
-}
-
-.div_img {
-    display: flex;
-    flex-direction: column;
-    height: fit-content;
-}
-
-.div_img>img {
-    width: 100%;
-}
-
-.div_img>div {
-    display: flex;
-    gap: .5em;
-}
-
-.div_desc {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: fit-content;
-    gap: .3em;
-}
-
-.btn_close_modal{
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 3em;
-    height: 3em;
-    transform: translate(1.5em, -1.5em);
-    display: flex;
+    top: 10vh;
+    left: 20vw;
+    width: 800px;
+    height: 400px;
+    display: none;
     justify-content: center;
     align-items: center;
-    background-color: var(--blue);
-    border: none;
+    flex-flow: column;
+    overflow: hidden;
+    color: white;
     border-radius: 5px;
-    transition: .1s ease-in-out;
+    box-shadow: 1px 1px 5px black;
+    backdrop-filter: blur(5px);
+    transition: opacity 0.25s ease;
+    background-color: rgba(0, 0, 0, 0.8);
 }
-
-.btn_close_modal:hover {
-    background-color: var(--light_blue);
-}
-
-
-
-.div_desc>div,
-.div_desc>div>div {
-    flex: 1;
-    display: flex;
-    gap: .3em;
-}
-
-.div_watch_later > button, .div_favorite > button {
+#modal_top {
+    width: 100%;
+    height: 80%;
     display: flex;
     justify-content: center;
-    align-items: baseline;
-    background-color: transparent;
-    border: none;
+    align-items: center;
 }
-
-span {
+#modal_img {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#modal_img>* {
+    width: 90%;
+    height: 90%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("http://image.tmdb.org/t/p/w500/gRApXuxWmO2forYTuTmcz5RaNUV.jpg");
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px black;
+}
+#modal_desc {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+}
+#modal_desc>*:nth-child(1) {
+    width: 100%;
+    height: 15%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+#modal_close_btn {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    border-radius: 100%;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    background-color: rgba(29, 32, 35, 1);
+}
+#modal_close_btn:hover {
+    background-color: rgb(41, 45, 49);
+}
+#modal_data {
+    width: 100%;
+    height: 85%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-flow: column;
+    gap: 5px 0px;
+}
+#modal_data>*:nth-child(1) {
+    font-size: 15pt;
     font-weight: bold;
-}   
+}
+#modal_data>*:nth-child(5) {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0px 5px;
+}
+#vote_counter {
+    width: 100px;
+    height: 90%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: 2px solid white;
+}
+#vote_counter>* {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+#modal_bottom {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+#modal_bottom>* {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 10px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px black;
+}
+.fav {
+    color: yellow;
+}
+.watch {
+    color: black;
+    background-color: white;
+}

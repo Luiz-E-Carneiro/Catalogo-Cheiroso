@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,9 +13,12 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Catálogo Cheiroso</title>
 </head>
+
 <body>
     <header>
         <h2>Catálogo Cheiroso</h2>
@@ -35,8 +39,10 @@
         <div class="select-type">
             <h3>Selecione o tipo</h3>
             <div class="btns-select">
-                <button class="btn-filme clicked" onclick="content_require(this)" data-action_num="5" data-type="0">Filme</button>
-                <button class="btn-serie" onclick="content_require(this)" data-action_num="5" data-type="1">Série</button>
+                <button class="btn-filme clicked" onclick="content_require(this)" data-action_num="5"
+                    data-type="0">Filme</button>
+                <button class="btn-serie" onclick="content_require(this)" data-action_num="5"
+                    data-type="1">Série</button>
             </div>
         </div>
         <div class="cards-area" id="cards-area">
@@ -50,21 +56,57 @@
                     </div>
                 </div>
             </div>-->
-                <div class="temp_screen" id="load_screen">
-                    <div id="load_icon">
-                        <p>Loading ...</p>
-                    </div>
+            <div class="temp_screen" id="load_screen">
+                <div id="load_icon">
+                    <p>Loading ...</p>
                 </div>
-                <div class="temp_screen" id="empty_screen">
-                    <div id="empty_icon">
-                        <i class="fa-solid fa-box-open"></i>
-                    </div>
-                    <p>Parece que não há conteúdo aqui</p>
+            </div>
+            <div class="temp_screen" id="empty_screen">
+                <div id="empty_icon">
+                    <i class="fa-solid fa-box-open"></i>
                 </div>
+                <p>Parece que não há conteúdo aqui</p>
+            </div>
         </div>
     </main>
-
-    <script src="data_requester.js"></script>
+    <div id="back_modal">
+        <div id="modal_top">
+            <div id="modal_img">
+                <div></div>
+            </div>
+            <div id="modal_desc">
+                <div>
+                    <div id="modal_close_btn" onclick="unshow_modal(this)">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                </div>
+                <div id="modal_data">
+                    <p>Bad Boys: Até o Fim</p>
+                    <p>2024-06-05</p>
+                    <p>Língua: en</p>
+                    <p>Adulto: sim</p>
+                    <div>
+                        Avaliação geral:
+                        <div id="vote_counter">
+                            <div></div>
+                        </div>
+                    </div>
+                    <p>Sinopse: Depois que seu falecido ex-capitão é incriminado, Lowrey e Burnett tentam limpar seu
+                        nome, apenas para acabarem se tornando os mais procurados de Miami.</p>
+                </div>
+            </div>
+        </div>
+        <div id="modal_bottom">
+            <div id="fav_button" onclick="fav_item(this)">
+                <i class="fa-regular fa-star"></i>
+                <!--<i class="fa-solid fa-star"></i>-->
+            </div>
+            <div id="watch_button" onclick="watch_item(this)">
+                <i class="fa-solid fa-list"></i>
+            </div>
+        </div>
+    </div>
     <script src="interactions.js"></script>
 </body>
+
 </html>

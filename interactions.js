@@ -8,14 +8,23 @@ document.getElementById('toggle-btn').addEventListener('click', function () {
 var cards_area = document.getElementById("cards-area")
 var load_screen = document.getElementById("load_screen")
 var empty_screen = document.getElementById("empty_screen")
+var back_modal = document.getElementById("back_modal")
+var modal_img = document.getElementById("modal_img")
+var modal_data = document.getElementById("modal_data")
+var vote_counter = document.getElementById("vote_counter")
+var modal_bottom = document.getElementById("modal_bottom")
 var data
+var fav_list
+var watch_list
 var action_num
-async function data_requester(action, item = null, type = null) {
-    var counter
-    counter = Number(cards_area.children.length)
-    document.querySelectorAll('.unity').forEach(function (element) {
-        element.remove();
-    });
+var action_type
+async function data_requester(action, item, type, data_arm) {
+    var data_return
+    if (data_arm == false) {
+        document.querySelectorAll('.unity').forEach(function (element) {
+            element.remove();
+        });
+    }
     /*if (counter >= 3) {
         for (var i = 2; i <= counter-1; i ++) {
             console.log(cards_area.children);
@@ -23,13 +32,18 @@ async function data_requester(action, item = null, type = null) {
         }
     }*/
     console.log(`http://localhost/catalogo-cheiroso/data_taker.php?action=${action}&item=${item}&type=${type}`)
-    data = await fetch(`http://localhost/catalogo-cheiroso/data_taker.php?action=${action}&item=${item}&type=${type}`)
-    data = await data.json()
+    data_return = await fetch(`http://localhost/catalogo-cheiroso/data_taker.php?action=${action}&item=${item}&type=${type}`)
+    data_return = await data_return.json()
     load_screen.style.display = "none"
-    if (Number(data.err_code) == 204) {
+    if (Number(data_return.err_code) == 204 && data_arm == false) {
         empty_screen.style.display = "flex"
-    } else {
+    } else if (Number(data_return.err_code) != 204 && data_arm == false) {
+        data = data_return
         content_creater()
+    } else if (data_arm == 1) {
+        fav_list = data_return
+    } else if (data_arm == 2) {
+        watch_list = data_return
     }
     console.log(data)
 }
@@ -40,10 +54,12 @@ function content_require(element) {
     element.parentNode.children[element.classList[0] == "btn-filme" ? 1 : 0].classList.remove("clicked")
     action_num = Number(element.dataset.action_num)
     var action_item
-    var action_type = Number(element.dataset.type)
+    action_type = Number(element.dataset.type)
     if (action_num >= 5) {
     }
-    data_requester(action_num, action_item, action_type)
+    data_requester(action_num, action_item, action_type, false)
+    data_requester(5, action_item, action_type, 1)
+    data_requester(6, action_item, action_type, 2)
 }
 /*
 <div class="unity">
@@ -58,9 +74,12 @@ function content_require(element) {
 */
 function content_creater() {
     data.forEach(function (element, i) {
+        if (action_num >= 5) {
+            element = element[0]
+        }
         var unity = document.createElement("div")
         unity.addEventListener("click", function () {
-            show_modal(unity.dataset.data_num)
+            show_modal(this)
         })
         unity.addEventListener("mouseenter", function () {
             show_desc(this)
@@ -114,170 +133,63 @@ function unshow_desc(element) {
 }
 content_require(document.getElementsByClassName("btn-filme")[0])
 
-const show_modal = (i) => {
-    var infos = data[i];
-    console.log(infos);
 
-    let back_modal = document.createElement("div");
-    back_modal.classList.add("back_modal");
-
-    document.body.appendChild(back_modal);
-
-    let div_modal = document.createElement("div");
-    div_modal.classList.add("modal");
-
-    back_modal.appendChild(div_modal);
-
-    let div_img = document.createElement("div");
-    div_img.classList.add("div_img");
-
-    div_modal.appendChild(div_img);
-
-    let img = document.createElement("img");
-    img.src = `http://image.tmdb.org/t/p/w500${infos.backdrop_path}`;
-
-    let span_date = document.createElement("span");
-    span_date.innerText = "Lançamento: ";
-
-    let p_release_date = document.createElement("p");
-    if (infos.release_date) {
-        p_release_date.innerText = infos.release_date;
-    } else {
-        p_release_date.innerText = infos.first_air_date;
+const show_modal = (element) => {
+    var infos = data[Number(element.dataset.data_num)]
+    if (action_num >= 5) {
+        infos = infos[0]
     }
-
-    let div_foot_img = document.createElement("div");
-    div_foot_img.appendChild(span_date);
-    div_foot_img.appendChild(p_release_date);
-
-    div_img.appendChild(img);
-    div_img.appendChild(div_foot_img);
-
-    let div_desc = document.createElement("div");
-    div_desc.classList.add("div_desc");
-
-    let span_title = document.createElement("span");
-    span_title.innerText = "Título: ";
-
-    let p_title = document.createElement("p");
-    if (infos.title) {
-        p_title.innerText = infos.title;
-    } else {
-        p_title.innerText = infos.name;
+    back_modal.style.display = "flex"
+    back_modal.style.opacity = 1
+    back_modal.dataset.data_num = Number(element.dataset.data_num)
+    modal_img.children[0].style.backgroundImage = `url("http://image.tmdb.org/t/p/w500${infos.backdrop_path}")`
+    modal_data.children[0].innerHTML = infos.title != undefined ? infos.title : infos.name
+    modal_data.children[1].innerHTML = infos.release_date != undefined ? infos.release_date : infos.first_air_date
+    modal_data.children[2].innerHTML = `Lingua: ${infos.original_language}`
+    modal_data.children[3].innerHTML = `Adulto: ${infos.adult ? `Sim` : `Não`}`
+    modal_data.children[5].innerHTML = `Sinopse: ${infos.overview}`
+    vote_counter.children[0].style.width = `${Number.parseInt(Number(infos.vote_average) * 10)}%`
+    if (fav_list.err_code == undefined) {
+        fav_list.forEach(function(element, i) {
+            if (infos.id == element[1]) {
+                modal_bottom.children[0].classList.add("fav")
+            }
+        })
     }
-
-    let div1 = document.createElement("div");
-    div1.appendChild(span_title);
-    div1.appendChild(p_title);
-
-    let span_overview = document.createElement("span");
-    span_overview.innerText = "Descrição: ";
-
-    let p_overview = document.createElement("p");
-    p_overview.innerText = infos.overview;
-
-    let div2 = document.createElement("div");
-    div2.appendChild(span_overview);
-    div2.appendChild(p_overview);
-
-    let span_adult = document.createElement("span");
-    span_adult.innerText = "Adulto: ";
-    let p_adult = document.createElement("p");
-
-    if (infos.adult) {
-        p_adult.innerText = "Sim";
-    } else {
-        p_adult.innerText = "Não";
+    if (watch_list.err_code == undefined) {
+        watch_list.forEach(function(element, i) {
+            if (infos.id == element[1]) {
+                modal_bottom.children[1].classList.add("watch")
+            }
+        })
     }
-    let div3 = document.createElement("div");
-    div3.appendChild(span_adult);
-    div3.appendChild(p_adult);
-
-    let div_numbers = document.createElement("div");
-    div_numbers.classList.add("div_numbers");
-
-    let span_vote = document.createElement("span");
-    span_vote.innerText = "Média de Votos: ";
-
-    let p_vote_average = document.createElement("p");
-    p_vote_average.innerText = `${Number(infos.vote_average).toFixed(1)}/10`;
-
-    let div4 = document.createElement("div");
-    div4.appendChild(span_vote);
-    div4.appendChild(p_vote_average);
-
-    let span_pop = document.createElement("span");
-    span_pop.innerText = "Populariedade: ";
-
-    let p_popularity = document.createElement("p");
-    p_popularity.innerText = infos.popularity;
-
-    let div5 = document.createElement("div");
-    div5.appendChild(span_pop);
-    div5.appendChild(p_popularity);
-
-    let btn_close = document.createElement("button");
-    btn_close.innerHTML = `<span class="material-symbols-outlined">close</span>`;
-    btn_close.classList.add('btn_close_modal');
-
-    btn_close.addEventListener("click", function () {
+}
+function unshow_modal(element) {
+    back_modal.style.opacity = 0
+    setTimeout(() => {
         back_modal.style.display = "none"
-    })
-
-    div_numbers.appendChild(btn_close);
-
-    div_numbers.appendChild(div4);
-    div_numbers.appendChild(div5);
-
-    div_desc.appendChild(div1);
-    div_desc.appendChild(div2);
-    div_desc.appendChild(div3);
-    div_desc.appendChild(div_numbers);
-
-    let div_actions = document.createElement("div");
-    div_actions.classList.add("div_actions");
-
-    let div_favorite = document.createElement("div");
-    div_favorite.classList.add("div_favorite");
-    let span_favorite = document.createElement("span");
-    span_favorite.innerText = "Favoritar";
-    let button_favorite = document.createElement("button");
-    button_favorite.innerHTML = `<span class="material-symbols-outlined">star</span>`;
-    div_favorite.appendChild(span_favorite);
-    div_favorite.appendChild(button_favorite);
-    
-    let div_watch_later = document.createElement("div");
-    div_watch_later.classList.add("div_watch_later");
-    let span_watch_later = document.createElement("span");
-    span_watch_later.innerText = "Assistir Depois ";
-    let button_watch_later = document.createElement("button");
-    button_watch_later.innerHTML = `<span class="material-symbols-outlined">visibility_off</span>`;
-    div_watch_later.appendChild(span_watch_later);
-    div_watch_later.appendChild(button_watch_later);
-
-    div_actions.appendChild(div_favorite);
-    div_actions.appendChild(div_watch_later);
-
-    div_desc.appendChild(div_actions);
-
-    div_modal.appendChild(div_desc);
-
-    button_watch_later.addEventListener("click", ()=> watch_later(infos, button_watch_later));
-    button_favorite.addEventListener("click", ()=> favorite_it(infos, button_favorite));
+    }, 250);
 }
-
-const watch_later = (infos, btn) => {
-    if(btn.innerHTML === `<span class="material-symbols-outlined">visibility_off</span>`)
-    btn.innerHTML = `<span class="material-symbols-outlined">visibility</span>`
-    else btn.innerHTML = `<span class="material-symbols-outlined">visibility_off</span>`;
-}
-
-const favorite_it = (infos, btn) => {
-    if(btn.innerHTML === `<span class="material-symbols-outlined">star</span>`){
-        btn.innerHTML = `<span class="material-symbols-outlined">hotel_class</span>`
-    }else {
-        btn.innerHTML = `<span class="material-symbols-outlined">star</span>`;
+function fav_item(element) {
+    info = data[Number(back_modal.dataset.data_num)]
+    console.log(JSON.stringify(info))
+    if (element.classList[0] == "fav") {
+        element.classList.remove("fav")
+        data_requester(9, info.id, action_type, action_num == 5 ? false : 1)
+    } else {
+        element.classList.add("fav")
+        data_requester(7, JSON.stringify(info), action_type, action_num == 5 ? false : 1)
     }
-    console.log(btn.children);
-    
+    data_requester(5, 0, action_type, 1)
+}
+function watch_item(element) {
+    info = data[Number(back_modal.dataset.data_num)]
+    if (element.classList[0] == "watch") {
+        element.classList.remove("watch")
+        data_requester(10, info.id, action_type, action_num == 6 ? false : 2)
+    } else {
+        element.classList.add("watch")
+        data_requester(8, JSON.stringify(info), action_type, action_num == 6 ? false : 2)
+    }
+    data_requester(6, 0, action_type, 2)
 }

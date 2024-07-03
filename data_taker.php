@@ -22,6 +22,7 @@ if (isset($_GET["item"])) {
 }
 $type = (int) isset($_GET["type"]) ? $_GET["type"] : 0;
 $require_awnser = [];
+//print_r($_SESSION["data"]["fav"][0]);
 switch ($action) {
     case 0:
         $require_awnser = [
@@ -42,7 +43,7 @@ switch ($action) {
         $require_awnser = data_requester("tv/top_rated?language=pt-BR&page=1", $client);
         break;
     case 5:
-        if (isset($_SESSION["data"]["fav"][$type])) {
+        if (isset($_SESSION["data"]["fav"][$type]) && count($_SESSION["data"]["fav"][$type]) != 0) {
             $require_awnser = $_SESSION["data"]["fav"][$type];
         } else {
             $require_awnser = [
@@ -52,7 +53,7 @@ switch ($action) {
         }
         break;
     case 6:
-        if (isset($_SESSION["data"]["watch_list"][$type])) {
+        if (isset($_SESSION["data"]["watch_list"][$type]) && count($_SESSION["data"]["watch_list"][$type]) != 0) {
             $require_awnser = $_SESSION["data"]["watch_list"][$type];
         } else {
             $require_awnser = [
@@ -81,7 +82,14 @@ switch ($action) {
                 $counter++;
             }
         }
-        $require_awnser = $_SESSION["data"]["fav"][$type];
+        if (count($_SESSION["data"]["fav"][$type]) != 0) {
+            $require_awnser = $_SESSION["data"]["fav"][$type];
+        } else {
+            $require_awnser = [
+                "err" => "Empty State",
+                "err_code" => 204 // codigo empty state
+            ];
+        }
         break;
     case 10:
         if (count($_SESSION["data"]["watch_list"][$type]) >= 1) {
@@ -95,7 +103,14 @@ switch ($action) {
                 $counter++;
             }
         }
-        $require_awnser = $_SESSION["data"]["watch_list"][$type];
+        if (count($_SESSION["data"]["watch_list"][$type]) != 0) {
+            $require_awnser = $_SESSION["data"]["watch_list"][$type];
+        } else {
+            $require_awnser = [
+                "err" => "Empty State",
+                "err_code" => 204 // codigo empty state
+            ];
+        }
         break;
 }
 print_r(json_encode($require_awnser));
